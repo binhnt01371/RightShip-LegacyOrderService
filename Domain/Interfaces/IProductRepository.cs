@@ -9,5 +9,10 @@ namespace LegacyOrderService.Domain.Interfaces
         /// Gets the price for the specified product or throws if not found.
         /// </summary>
         double GetPrice(string productName);
+
+        /// <summary>
+        /// Gets all available products.
+        /// </summary>
+        IEnumerable<string> GetAllProducts();
     }
 }

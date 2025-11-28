@@ -22,5 +22,10 @@ namespace LegacyOrderService.Infrastructure.Repositories
 
             throw new ProductNotFoundException($"Product '{productName}' not found");
         }
+
+        public IEnumerable<string> GetAllProducts()
+        {
+            return _productPrices.Keys;
+        }
     }
 }

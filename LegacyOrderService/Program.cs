@@ -21,6 +21,7 @@ namespace LegacyOrderService
 
             // Register CQRS handlers
             services.AddTransient<IRequestHandler<GetProductPriceQuery, double>, GetProductPriceQueryHandler>();
+            services.AddTransient<IRequestHandler<GetAllProductQuery, IEnumerable<string>>, GetAllProductQueryHandler>();
             services.AddTransient<IRequestHandler<CreateOrderCommand, bool>, CreateOrderCommandHandler>();
 
             // Register mediator
@@ -31,15 +32,13 @@ namespace LegacyOrderService
 
             Console.WriteLine("Welcome to Order Processor!");
             Console.WriteLine("Enter customer name:");
-            string name = Console.ReadLine();
+            var name = Console.ReadLine();
 
-            Console.WriteLine("Enter product name:");
-            string product = Console.ReadLine();
+            var products = mediator.Send(new GetAllProductQuery());
+            var product = SelectProduct(products);
 
-            double price = mediator.Send(new GetProductPriceQuery(product));
-
-            Console.WriteLine("Enter quantity:");
-            int qty = Convert.ToInt32(Console.ReadLine());
+            var price = mediator.Send(new GetProductPriceQuery(product));
+            int qty = EnterQuantity();
 
             Console.WriteLine("Processing order...");
 
@@ -51,7 +50,7 @@ namespace LegacyOrderService
                 Price = price
             };
 
-            double total = order.Quantity * order.Price;
+            var total = order.Quantity * order.Price;
 
             Console.WriteLine("Order complete!");
             Console.WriteLine("Customer: " + order.CustomerName);
@@ -62,6 +61,36 @@ namespace LegacyOrderService
             Console.WriteLine("Saving order to database...");
             mediator.Send(new CreateOrderCommand(order));
             Console.WriteLine("Done.");
+        }
+
+        private static int EnterQuantity()
+        {
+            Console.WriteLine("Enter quantity:");
+            if (int.TryParse(Console.ReadLine(), out int qty))
+            {
+                return qty;
+            }
+            Console.WriteLine("Invalid quantity. Please enter a valid integer."); 
+            Console.WriteLine();
+            return EnterQuantity();
+        }
+
+        private static string SelectProduct(IEnumerable<string> products)
+        {
+            Console.WriteLine("Select product:");
+            foreach (var prod in products)
+            {
+                Console.WriteLine("- " + prod);
+            }
+            Console.Write("Enter your choice: ");
+            var product = Console.ReadLine();
+            if (!products.Contains(product, StringComparer.OrdinalIgnoreCase))
+            {
+                Console.WriteLine("Invalid product selected. Please try again.");
+                Console.WriteLine();
+                return SelectProduct(products);
+            }
+            return product;
         }
     }
 }
