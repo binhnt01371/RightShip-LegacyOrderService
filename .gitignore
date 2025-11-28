@@ -15,3 +15,6 @@
 /Infrastructure/obj
 /LegacyOrderService/bin/Debug/net8.0
 /LegacyOrderService/obj
+/.vs/CopilotSnapshots/66BD2B39278F6A4CA451FE498DE5ACE6
+/Tests/Infrastructure.Tests/bin/Debug/net8.0
+/Tests/Infrastructure.Tests/obj
