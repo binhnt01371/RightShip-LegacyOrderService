@@ -5,3 +5,13 @@
 /obj
 /bin/Debug/net8.0
 /.vs/LegacyOrderService
+/.vs/CopilotSnapshots/F687664954E4C04C808F7C15BAC11B9D
+/.vs/CopilotSnapshots/681193AF68A545468CE7BBEA7CB4860F
+/Application/bin/Debug/net8.0
+/Application/obj
+/Domain/bin/Debug/net8.0
+/Domain/obj
+/Infrastructure/bin/Debug/net8.0
+/Infrastructure/obj
+/LegacyOrderService/bin/Debug/net8.0
+/LegacyOrderService/obj
